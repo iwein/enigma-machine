@@ -4,7 +4,6 @@ import org.specs2._
 import execute.Result
 
 /**
- *
  * @author iwein
  */
 
@@ -28,6 +27,12 @@ class EnigmaAcceptanceTests extends Specification with Alphabets {
   }
 
   def enigma: Enigma = {
-    Enigma(Rotor('K', alphabetIII)(Rotor('C', alphabetII)(Rotor('M', alphabetI)(Reflector()))))
+    Enigma(
+      (Rotor(realAlphabet, alphabetIII)
+        (Rotor(realAlphabet, alphabetII)
+          (Rotor(realAlphabet, alphabetI)(Reflector())
+            .rotateUpto('M'))
+          .rotateUpto('C'))
+        .rotateUpto('K')))
   }
 }

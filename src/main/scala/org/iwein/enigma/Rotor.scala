@@ -2,47 +2,33 @@ package org.iwein.enigma
 
 
 /**
- * This class is severely underdocumented.
- *
  * @author iwein
  */
 
-class Rotor(startPosition: Char, next:Transformer, alphabet:String) extends Transformer with Alphabets {
-
-  var rotorMapping = realAlphabet.zip(alphabet).toList
-
-  while (rotorMapping.head._1 != startPosition){
-    rotate
-  }
+case class Rotor(leftAlphabet:String, rightAlphabet:String)(next:Transformer) extends Transformer with Alphabets {
 
   def transform(inputIndex: Int): Int = {
-    require((inputIndex < 26 && inputIndex >= 0), "index out of bounds: %s".format(inputIndex))
-    val indexedRotorMapping = rotorMapping.zipWithIndex
-    val rightCharacter = indexedRotorMapping(inputIndex)._1._2
-    val indexLeftCharacter = indexedRotorMapping.find(_._1._1 == rightCharacter).get._2
+    require((inputIndex < 26 && inputIndex >= 0), "Index out of bounds: %s".format(inputIndex))
+
+    val indexLeftCharacter = leftAlphabet.indexOf(rightAlphabet.charAt(inputIndex))
     val nextOutput = next.transform(indexLeftCharacter)
 
-    val leftCharacter = indexedRotorMapping(nextOutput)._1._1
-    val indexRightCharacter = indexedRotorMapping.find(_._1._2 == leftCharacter).get._2
-
-    if (rotorMapping.head._1 == 'Z') {
-      next.rotate
-    }
-
-    indexRightCharacter
+    rightAlphabet.indexOf(leftAlphabet.charAt(nextOutput))
   }
 
-  private def rotate[A](n: Int, ls: List[A]): List[A] = {
-    val nBounded = if (ls.isEmpty) 0 else n % ls.length
-    if (nBounded < 0) rotate(nBounded + ls.length, ls)
-    else (ls drop nBounded) ::: (ls take nBounded)
+  private def rotate[A](n: Int, ls: String): String = {
+    require(n > 0)
+    val nBounded =  n % ls.length
+    (ls substring nBounded) + (ls substring (0,  nBounded))
   }
 
-  def rotate = {
-    rotorMapping = rotate(1, rotorMapping)
+  override def rotate (steps:Int): Transformer = {
+    val (rotatedLeftAlphabet, rotatedRightAlphabet) = (rotate(steps, leftAlphabet), rotate(steps, rightAlphabet))
+    val rotatedNext = if (leftAlphabet.indexOf('Z')<steps) next.rotate(1) else next
+    Rotor(rotatedLeftAlphabet, rotatedRightAlphabet)(rotatedNext)
   }
-}
 
-object Rotor {
-  def apply (startPosition:Char, alphabet:String)(next:Transformer): Rotor = new Rotor(startPosition, next, alphabet)
+  def rotateUpto(char:Char): Transformer = {
+    rotate(leftAlphabet.indexOf (char))
+  }
 }

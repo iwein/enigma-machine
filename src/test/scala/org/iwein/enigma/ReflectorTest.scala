@@ -3,8 +3,6 @@ package org.iwein.enigma
 import org.specs2.mutable.Specification
 
 /**
- * This class is severely underdocumented.
- *
  * @author iwein
  */
 

@@ -5,7 +5,7 @@ package org.iwein.enigma
  */
 
 trait Transformer {
-  def rotate
+  def rotate(steps:Int) = this
 
   def transform (inputIndex:Int):Int
 

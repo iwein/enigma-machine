@@ -3,27 +3,22 @@ package org.iwein.enigma
 import java.lang.String
 
 /**
- * This class is severely underdocumented.
- *
  * @author iwein
  */
 
-class Enigma (transformer:Transformer) extends Alphabets {
+case class Enigma (transformer:Transformer, output:String="") extends Alphabets {
 
   def transform(input: String): String = {
-    def transformCharacter( toBeTransformed:Char) : Char = {
-      val inputIndex: Int = realAlphabet.indexOf(toBeTransformed)
-
-      if (inputIndex < 0) return toBeTransformed
-      transformer.rotate
-      val transformed: Int = transformer.transform(inputIndex)
-      realAlphabet.charAt(transformed)
-    }
-    input.foldLeft("")((base, char)=>base+transformCharacter(char))
+    (input.foldLeft(this)((enigma, char)=>enigma.transformCharacter(char))).output
   }
 
-}
+  def transformCharacter( toBeTransformed:Char) : Enigma = {
+    val inputIndex: Int = realAlphabet.indexOf(toBeTransformed)
+    if (inputIndex < 0) return Enigma(transformer, this.output+toBeTransformed)
 
-object Enigma {
-  def apply(tranformer:Transformer): Enigma = new Enigma(tranformer)
+    val rotatedTransformer = transformer.rotate(1)
+    val transformed: Int = rotatedTransformer.transform(inputIndex)
+    Enigma(rotatedTransformer, this.output+realAlphabet.charAt(transformed))
+  }
+
 }
