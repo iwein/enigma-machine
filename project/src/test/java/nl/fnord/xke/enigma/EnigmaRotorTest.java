@@ -6,6 +6,7 @@ import static org.junit.Assert.assertThat;
 
 import java.util.List;
 
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
@@ -13,7 +14,13 @@ import org.junit.Test;
  */
 public abstract class EnigmaRotorTest {
 
-    private Enigma enigma = new Enigma('A','A','A');
+    private static Enigma enigma;
+
+    @BeforeClass
+    public static void init() {
+        enigma = new Enigma('A','A','A');
+    }
+
     private int input;
     private int expectedIndex;
 
@@ -28,6 +35,17 @@ public abstract class EnigmaRotorTest {
     @Test
     public void test() {
         assertThat(transform(input, enigma), is(expectedIndex));
+    }
+
+    static List<Object[]> dataNotched(String leftColumn, String rightColumn) {
+        final int max = leftColumn.length();
+        StringBuilder left = new StringBuilder(max * max);
+        StringBuilder right = new StringBuilder(max * max);
+        for (int shift = 0; shift < max; shift++) {
+            left.append(leftColumn.substring(shift)).append(leftColumn.substring(0, shift));
+            right.append(rightColumn);
+        }
+        return data(left.toString(), right.toString());
     }
 
     static List<Object[]> data(String leftColumn, String rightColumn) {

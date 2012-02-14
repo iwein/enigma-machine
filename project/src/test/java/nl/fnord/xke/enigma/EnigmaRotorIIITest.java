@@ -28,13 +28,6 @@ public class EnigmaRotorIIITest extends EnigmaRotorTest {
 
     @Parameters
     public static List<Object[]> data() {
-        final int max = alphabetIII.length();
-        StringBuilder left = new StringBuilder(max * max);
-        StringBuilder right = new StringBuilder(max * max);
-        for (int shift = 0; shift < max; shift++) {
-            left.append(alphabetIII.substring(shift)).append(alphabetIII.substring(0, shift));
-            right.append(realAlphabet);
-        }
-        return data(left.toString(), right.toString());
+        return dataNotched(alphabetIII, realAlphabet);
     }
 }

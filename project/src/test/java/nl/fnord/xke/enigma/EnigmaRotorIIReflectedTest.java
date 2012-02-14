@@ -28,6 +28,6 @@ public class EnigmaRotorIIReflectedTest extends EnigmaRotorTest {
 
     @Parameters
     public static List<Object[]> data() {
-        return data(realAlphabet, alphabetII);
+        return dataNotched(realAlphabet, alphabetII);
     }
 }
