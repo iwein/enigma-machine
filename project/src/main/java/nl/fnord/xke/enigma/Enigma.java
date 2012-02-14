@@ -1,6 +1,7 @@
 package nl.fnord.xke.enigma;
 
 import static nl.fnord.xke.enigma.Alphabets.realAlphabet;
+import static nl.fnord.xke.enigma.Alphabets.alphabetIII;
 public class Enigma {
 
     public String transform(String clearText) {
@@ -23,7 +24,8 @@ public class Enigma {
      * Translates the character index of rotor III.
      */
     public int rotor3(int input) {
-        throw new UnsupportedOperationException("Please, implement this method.");
+    	char inputChar = alphabetIII.charAt(input);
+    	return realAlphabet.indexOf(inputChar);
     }
 
 }
