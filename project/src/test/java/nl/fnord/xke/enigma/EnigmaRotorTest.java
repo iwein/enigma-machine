@@ -1,8 +1,6 @@
 package nl.fnord.xke.enigma;
 
 import static com.google.common.collect.Lists.newArrayList;
-import static nl.fnord.xke.enigma.Alphabets.alphabetIII;
-import static nl.fnord.xke.enigma.Alphabets.realAlphabet;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
@@ -35,8 +33,8 @@ public abstract class EnigmaRotorTest {
     static List<Object[]> data(String leftColumn, String rightColumn) {
         assert leftColumn.length() == rightColumn.length();
         List<Object[]> result = newArrayList();
-        for (int i = 0, max = realAlphabet.length(); i < max; i++) {
-            result.add(new Object[] { i, alphabetIII.indexOf(realAlphabet.charAt(i)) });
+        for (int i = 0, max = leftColumn.length(); i < max; i++) {
+            result.add(new Object[] { i, rightColumn.indexOf(leftColumn.charAt(i)) });
         }
         return result;
     }
