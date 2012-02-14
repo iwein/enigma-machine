@@ -13,7 +13,7 @@ import org.junit.Test;
  */
 public abstract class EnigmaRotorTest {
 
-    private Enigma enigma = new Enigma();
+    private Enigma enigma = new Enigma('A','A','A');
     private int input;
     private int expectedIndex;
 

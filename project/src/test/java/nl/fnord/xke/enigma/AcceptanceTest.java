@@ -11,7 +11,7 @@ public class AcceptanceTest {
 
     @Test
     public void accept() {
-        Enigma enigma = new Enigma();
+        Enigma enigma = new Enigma('A','A','A');
         assertThat(enigma.transform(clearText), is(cipherText));
         assertThat(enigma.transform(cipherText), is(clearText));
     }

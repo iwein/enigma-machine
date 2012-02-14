@@ -20,7 +20,7 @@ import com.google.common.collect.Lists;
 @RunWith(Parameterized.class)
 public class EnigmaKeyboardInputTest {
 
-    private Enigma enigma = new Enigma();
+    private Enigma enigma = new Enigma('A','A','A');
     private char input;
     private int expectedIndex;
 

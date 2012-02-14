@@ -4,7 +4,18 @@ import static nl.fnord.xke.enigma.Alphabets.realAlphabet;
 import static nl.fnord.xke.enigma.Alphabets.alphabetI;
 import static nl.fnord.xke.enigma.Alphabets.alphabetII;
 import static nl.fnord.xke.enigma.Alphabets.alphabetIII;
+
 public class Enigma {
+	
+	private int rightRotorPosition;
+	private int middleRotorPosition;
+	private int leftRotorPosition;
+
+	public Enigma(char initialLeftPosition, char initialMiddlePosition, char initialRightPosition) {
+		leftRotorPosition = realAlphabet.indexOf(initialLeftPosition);
+		middleRotorPosition = realAlphabet.indexOf(initialMiddlePosition);
+		rightRotorPosition = realAlphabet.indexOf(initialRightPosition);
+	}
 
     public String transform(String clearText) {
         throw new UnsupportedOperationException("Please, implement this method.");
@@ -26,7 +37,8 @@ public class Enigma {
      * Translates the character index of rotor III, original pass.
      */
     public int rotor3(int input) {
-    	char inputChar = alphabetIII.charAt(input);
+    	int notchedInput = (input + rightRotorPosition) % 26;
+    	char inputChar = alphabetIII.charAt(notchedInput);
     	return realAlphabet.indexOf(inputChar);
     }
 

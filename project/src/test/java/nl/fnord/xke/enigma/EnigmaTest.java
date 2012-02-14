@@ -8,7 +8,7 @@ import org.junit.Test;
 
 public class EnigmaTest {
 
-    private Enigma enigma = new Enigma();
+    private Enigma enigma = new Enigma('A','A','A');
 
     /** Check that the keyboard entry is translated into a position on the first rotor. */
     @Test
