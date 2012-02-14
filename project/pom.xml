@@ -4,6 +4,7 @@
   <groupId>nl.fnord.xke</groupId>
   <artifactId>xke-20120214</artifactId>
   <version>1.0-SNAPSHOT</version>
+  <packaging>jar</packaging>
   <dependencies>
     <dependency>
       <groupId>org.hamcrest</groupId>
