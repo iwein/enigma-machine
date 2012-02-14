@@ -62,4 +62,8 @@ public class Enigma {
     public int rotor1reflected(int input) {
         throw new UnsupportedOperationException("Please, implement this method");
     }
+
+    public int reflector(int input) {
+        throw new UnsupportedOperationException("Please, implement this method.");
+    }
 }
