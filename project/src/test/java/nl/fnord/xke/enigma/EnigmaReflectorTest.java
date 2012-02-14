@@ -18,7 +18,7 @@ import com.google.common.collect.Lists;
 @RunWith(Parameterized.class)
 public class EnigmaReflectorTest {
 
-    private Enigma enigma = new Enigma();
+    private Enigma enigma = new Enigma('A','A','A');
     private int input;
     private int expectedIndex;
 
