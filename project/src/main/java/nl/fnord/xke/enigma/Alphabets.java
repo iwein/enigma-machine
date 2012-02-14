@@ -5,4 +5,6 @@ public class Alphabets {
   public final String alphabetI = "EKMFLGDQVZNTOWYHXUSPAIBRCJ";
   public final String alphabetII = "AJDKSIRUXBLHWTMCQGZNPYFVOE";
   public final String alphabetIII = "BDFHJLCPRTXVZNYEIWGAKMUSQO";
+  
+  public final String reflector = "ABCDEFGDIJKGMKMIEBFTCVVJAT";
 }
