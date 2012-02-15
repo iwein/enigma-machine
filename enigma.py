@@ -13,10 +13,26 @@ ROTORS = [
 
 REFLECTOR = "ABCDEFGDIJKGMKMIEBFTCVVJAT"
 
-INITIAL_OFFSETS = ( 'M', 'C', 'K' )
+INITIAL_OFFSETS = 'MCK'
 
-def to_char(c):
-    return chr(ord('A') + c)
+NOTCHES = 'VEQ'
+
+
+def to_index(s):
+    """
+    >>> to_index("BDFHJLCPRTXVZNYEIWGAKMUSQO")
+    [1, 3, 5, 7, 9, 11, 2, 15, 17, 19, 23, 21, 25, 13, 24, 4, 8, 22, 6, 0, 10, 12, 20, 18, 16, 14]
+    """
+    return map(lambda c: ord(c) - ord('A'), s)
+
+
+def to_chars(s):
+    """
+    >>> to_chars([1, 3, 5, 7, 9, 11, 2, 15, 17, 19, 23, 21])
+    ['B', 'D', 'F', 'H', 'J', 'L', 'C', 'P', 'R', 'T', 'X', 'V']
+    """
+    return map(lambda c: chr(ord('A') + c), s)
+
 
 def reflect(offset):
     """
@@ -27,12 +43,6 @@ def reflect(offset):
     """
     return (REFLECTOR * 2).index(REFLECTOR[offset % 26], (offset % 26) + 1) % len(REFLECTOR)
 
-def to_index(rotor):
-    """
-    >>> to_index("BDFHJLCPRTXVZNYEIWGAKMUSQO")
-    [1, 3, 5, 7, 9, 11, 2, 15, 17, 19, 23, 21, 25, 13, 24, 4, 8, 22, 6, 0, 10, 12, 20, 18, 16, 14]
-    """
-    return map(lambda c: ord(c) - ord('A'), rotor)
 
 def encode_left(offset, rotor):
     """
@@ -43,6 +53,7 @@ def encode_left(offset, rotor):
     """
     return rotor[offset % 26]
 
+
 def encode_right(offset, rotor):
     """
     >>> encode_right(4, to_index("BDFHJLCPRTXVZNYEIWGAKMUSQO")) # 4 == 'E'
@@ -52,67 +63,60 @@ def encode_right(offset, rotor):
     >>> encode_right(25, to_index("BDFHJLCPRTXVZNYEIWGAKMUSQO")) # 16 == 'Q'
     12
     """
-    #print 'env right', offset
     return rotor.index(offset % 26)
 
 
-def transform_char(index, rotors, offsets):
+def transform_char(index, rotors, offsets, drift=0):
     """
-    >>> transform_char(4, ["BDFHJLCPRTXVZNYEIWGAKMUSQO"], (-10, 10))
+    >>> transform_char(4, map(to_index, ["BDFHJLCPRTXVZNYEIWGAKMUSQO"]), to_index('K'))
     7
-    >>> transform_char(22, ["BDFHJLCPRTXVZNYEIWGAKMUSQO"], (-10, 10))
+    >>> transform_char(22, map(to_index, ["BDFHJLCPRTXVZNYEIWGAKMUSQO"]), to_index('K'))
     23
     """
-    offset = offsets[-1]
+    pos = offsets and offsets[-1] or 0
+
+    offset = pos - drift
 
     index = index + offset
 
     if not rotors:
         index = reflect(index)
     else:
-        rotor = to_index(rotors[-1])
+        rotor = rotors[-1]
     
         index = encode_left(index, rotor)
-        index = transform_char(index, rotors[:-1], offsets[:-1])
+        index = transform_char(index, rotors[:-1], offsets[:-1], pos)
         index = encode_right(index, rotor)
 
     return (index - offset) % 26
 
+
 def increment_offset(ofs):
     """
-    >>> increment_offset((10, 2, 12))
-    (10, 1, 13)
-    >>> increment_offset((10, 2, 25))
-    (10, 1, 0)
-    >>> increment_offset((10, 0, 25))
-    (10, 25, 0)
+    >>> to_chars( increment_offset(to_index('KCM')) )
+    ['K', 'C', 'N']
+    >>> to_chars( increment_offset(to_index(('K', 'C', 'Z'))))
+    ['K', 'C', 'A']
+    >>> to_chars( increment_offset(to_index(('K', 'A', 'Z'))))
+    ['K', 'A', 'A']
     """
-    return ofs[:-2] + ((ofs[-2]-1) % 26, (ofs[-1]+1) % 26)
+    # TODO: keep in mind notches
+    ofs = ofs[:-1] + [(ofs[-1]+1) % 26]
+    return ofs
 
-def relative_offsets(offsets):
-    """
-    >>> relative_offsets(('M', 'C', 'K'))
-    (-12, 10, -8, 10)
-    """
-    offsets = to_index(offsets)
-    offsets.reverse()
-    o = offsets[0:1] + [b-a for a, b in zip(offsets, offsets[1:])]
-    o.reverse()
-    return tuple([-sum(o)] + o)
 
 def transform(message, rotors, offsets):
     """
     >>> transform("ENIGMA REVEALED", ROTORS, INITIAL_OFFSETS)
     QMJIDO MZWZJDMG
     """
-    #import pdb
-    ofs = relative_offsets(offsets)
+    ofs = to_index(offsets)
     output = []
-    #pdb.set_trace()
-    for c in message:
-        if ord('A') <= ord(c.upper()) <= ord('Z'):
+    for c in to_index(message.upper()):
+        if 0 <= c <= 25:
             ofs = increment_offset(ofs)
-            output.append(chr(transform_char(ord(c.upper()) - ord('A'), rotors, ofs) + ord('A')))
+            output.append(transform_char(c, map(to_index, rotors), ofs))
         else:
             output.append(c)
-    print "".join(output)
+    print "".join(to_chars(output))
+
