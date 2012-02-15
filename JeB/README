@@ -1,1 +1,10 @@
 We went crazy with JUnit's parameterized testrunner.
+
+STUFF-WE-DIDN'T-GET-AROUND-TO's:
+* Implement the reflector.
+* Implement the complete transformation.
+* Make for configurable notches (currently assumes 'Z'), updating the rotor 
+  tests accordingly will be somewhat interesting.
+* Make the acceptance test use the correct initial positions, rather 
+  than (A,A,A).
+* Improve naming of various bits, particularly the rotor/-reflected stuff.
