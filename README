@@ -1,6 +1,6 @@
 # Enigma Machine TDD
 
-Scala implementation for an Enigma machine. Part of the TDD workshop @xebia by @iwein and Jamie Dobson.
+Scala implementation for an Enigma machine. Part of the TDD workshop @xebia by @iweinfuld and Jamie Dobson.
 
 Based on the simulator http://startpad.googlecode.com/hg/labs/js/enigma/enigma-sim.html
 
