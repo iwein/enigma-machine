@@ -7,7 +7,7 @@ import execute.Result
  * @author iwein
  */
 
-class EnigmaAcceptanceTests extends Specification with Alphabets {
+class EnigmaAcceptanceTest extends Specification with Alphabets {
   def is = s2"""This is a specification of the outside behavior of an Enigma machine
 
        an Enigma machine should
@@ -26,13 +26,11 @@ class EnigmaAcceptanceTests extends Specification with Alphabets {
     enigma.transform(cipherText) must_== plainText
   }
 
-  def enigma: Enigma = {
-    Enigma(
-      (Rotor(realAlphabet, alphabetIII)
+  def enigma: Enigma = Enigma(
+      Rotor(realAlphabet, alphabetIII)
         (Rotor(realAlphabet, alphabetII)
           (Rotor(realAlphabet, alphabetI)(Reflector())
             .rotateUpto('M'))
           .rotateUpto('C'))
-        .rotateUpto('K')))
-  }
+        .rotateUpto('K'))
 }
