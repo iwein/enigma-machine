@@ -1,12 +1,13 @@
 package org.iwein.enigma
 
 import org.specs2.mutable.Specification
+import org.specs2.mock.Mockito
 
 /**
  * @author iwein
  */
 
-class RotorTest extends Specification with Alphabets {
+class RotorTest extends Specification with Alphabets with Mockito {
 
   def testRotor: Rotor = {
     Rotor(realAlphabet, alphabetI)(Reflector())
@@ -28,6 +29,16 @@ class RotorTest extends Specification with Alphabets {
       val rotor = testRotor
       rotor.transform(0) must_== 7
       rotor.rotate(1).transform(0) must_== 13
+    }
+  }
+
+  "A nested Rotor" should {
+    val dependent = mock[Transformer]
+    "rotate it's dependent rotor at notch" in {
+      val rotor = Rotor(realAlphabet, alphabetI, 'A')(dependent)
+      rotor.rotate(1)
+      .rotate(1)
+      there was one(dependent).rotate(1)
     }
   }
 

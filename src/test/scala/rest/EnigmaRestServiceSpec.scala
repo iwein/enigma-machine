@@ -20,7 +20,7 @@ class EnigmaRestServiceSpec extends Specification with Specs2RouteTest with Enig
     "magically mash message" in {
       Post("/puzzle1", "QMJIDO MZWZJFJR") ~>  enigmaRoute ~> check {
         handled === true
-        entityAs[String] === "RXFHHKYP EFMMQM" //what's the use of this test?
+        entityAs[String] === "HLTHHKYP EFMJHK" //what's the use of this test?
       }
     }
   }
