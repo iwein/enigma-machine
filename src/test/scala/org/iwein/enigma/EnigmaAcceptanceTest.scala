@@ -8,22 +8,22 @@ import execute.Result
  */
 
 class EnigmaAcceptanceTests extends Specification with Alphabets {
-  def is =
-    "This is a specification of the outside behavior of an Enigma machine" ^
-      p ^
-      "an Enigma machine should " ^
-      "transform plain text to cipher " ! toCipher ^
-      "transform cipher to plain text" ! toCipher
-     end
+  def is = s2"""This is a specification of the outside behavior of an Enigma machine
+
+       an Enigma machine should
+         transform plain text to cipher  $toCipher
+         transform cipher to plain text  $toPlain
+     """
 
   val plainText = "ENIGMA REVEALED"
   val cipherText = "QMJIDO MZWZJDMG"
 
   def toCipher : Result =  {
-    enigma.transform(plainText) must_== cipherText
+    enigma.transform(plainText) must_==cipherText
   }
+
   def toPlain : Result =  {
-    enigma.transform(cipherText) must_!= plainText
+    enigma.transform(cipherText) must_== plainText
   }
 
   def enigma: Enigma = {

@@ -8,7 +8,7 @@ package org.iwein.enigma
 case class Rotor(leftAlphabet:String, rightAlphabet:String)(next:Transformer) extends Transformer with Alphabets {
 
   def transform(inputIndex: Int): Int = {
-    require((inputIndex < 26 && inputIndex >= 0), "Index out of bounds: %s".format(inputIndex))
+    require(inputIndex < 26 && inputIndex >= 0, "Index out of bounds: %s".format(inputIndex))
 
     val indexLeftCharacter = leftAlphabet.indexOf(rightAlphabet.charAt(inputIndex))
     val nextOutput = next.transform(indexLeftCharacter)

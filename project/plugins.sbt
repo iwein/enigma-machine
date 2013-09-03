@@ -1,7 +1,9 @@
-libraryDependencies <+= sbtVersion(v => "com.github.siasia" %% "xsbt-web-plugin" % (v+"-0.2.10"))
+addSbtPlugin("com.typesafe.sbt" % "sbt-start-script" % "0.6.0")
 
-// IDEA - use command 'gen-idea' in sbt to create idea project files.
+addSbtPlugin("io.spray" % "sbt-revolver" % "0.6.2")
 
-resolvers += "sbt-idea-repo" at "http://mpeltonen.github.com/maven/"
+addSbtPlugin("io.spray" % "sbt-twirl" % "0.6.1")
 
-addSbtPlugin("com.github.mpeltonen" % "sbt-idea" % "0.11.0")
+resolvers ++= Seq(
+    "Typesafe repo" at "http://repo.typesafe.com/typesafe/releases/"
+)
