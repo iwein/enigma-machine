@@ -32,6 +32,25 @@ trait EnigmaService extends HttpService with SprayJsonSupport with Alphabets {
         }
 
       }
+    } ~ path("puzzle1") {
+      post {
+        (decodeRequest(Gzip) | decodeRequest(NoEncoding)) {
+          // unmarshal with in-scope unmarshaller
+          entity(as[String]) { body =>
+            complete(enigma.transform(enigma.transform(body).reverse))
+          }
+        }
+      }
+    } ~ path("puzzle2") {
+      post {
+        (decodeRequest(Gzip) | decodeRequest(NoEncoding)) {
+          // unmarshal with in-scope unmarshaller
+          entity(as[String]) {
+            body =>
+              complete(enigma.transform(enigma.transform(body.reverse)))
+          }
+        }
+      }
     }
 
 }
