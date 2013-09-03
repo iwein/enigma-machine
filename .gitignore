@@ -6,4 +6,5 @@ target
 *.iml
 *.iws
 *.ipr
-.settings:
+.settings
+.DS_Store
